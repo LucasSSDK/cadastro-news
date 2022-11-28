@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb+srv://Lucas:<Lucas>@news.h8f4ivx.mongodb.net/test')],
+  imports: [MongooseModule.forRoot('mongodb+srv://admin:admin@usernews.radqjuj.mongodb.net/test')],
   controllers: [],
   providers: [],
 })
