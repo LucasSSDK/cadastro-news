@@ -9,11 +9,11 @@ import { randomUUID } from 'node:crypto';
 
 @Injectable()
 export class UsersService {
-  private users: IUserEntity[] = [];
+ 
 
   async createUser(user: UserDto): Promise<IUserEntity> {
     const userEntity = { ...user, id: randomUUID() };
-    this.users.push(userEntity);
+   
     return Promise.resolve(userEntity);
   }
 
@@ -52,5 +52,7 @@ export class UsersService {
     return this.UserModel.deleteOne({
       _id: id,
     }).exec();
+
+   
   }
 }
