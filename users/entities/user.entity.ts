@@ -1,5 +1,5 @@
-import { Controller, Get, Post } from '@nestjs/common';
-export interface IUserEntity {
+import { UserDto } from 'users/dto/create-user.dto';
+export interface IUserEntity extends UserDto {
   id: string;
   name: string;
   email: string;
@@ -7,7 +7,4 @@ export interface IUserEntity {
   cpf: string;
   role: string;
 }
-@Controller()
-export default class UserController {
-  constructor(private readonly service: UserService) {}
-}
+
