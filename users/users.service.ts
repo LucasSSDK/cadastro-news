@@ -10,8 +10,8 @@ import { randomUUID } from 'node:crypto';
 @Injectable()
 export class UsersService {
   private users: IUserEntity[] = [];
-  
-  createUser(user: UserDto): Promise<IUserEntity> {
+
+  async createUser(user: UserDto): Promise<IUserEntity> {
     const userEntity = { ...user, id: randomUUID() };
     this.users.push(userEntity);
     return Promise.resolve(userEntity);
