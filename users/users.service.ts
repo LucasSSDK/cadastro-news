@@ -1,16 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateUserDto } from './dto/create-user.dto';
+import { UserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { } from './entities/user.entity';
+import { IUserEntity } from './entities/user.entity';
+import { UsersModule } from './users.module';
+import { randomUUID } from 'node:crypto';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private UserModel: Model<Document>) {}
+  private users: IUserEntity[] = [];
+  
+  createUser(user: UserDto): Promise<IUserEntity> {
+    const userEntity = { ...user, id: randomUUID() };
+    this.users.push(userEntity);
+    return Promise.resolve(userEntity);
+  }
 
-  create(createUserDto: CreateUserDto) {
-    const user = new this.UserModel(createUserDto);
+  constructor(
+    @InjectModel(UsersModule.name) private UserModel: Model<Document>,
+  ) {}
+
+  create(UserDto: UserDto) {
+    const user = new this.UserModel(UserDto);
     return user.save();
   }
 
