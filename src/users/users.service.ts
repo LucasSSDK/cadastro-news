@@ -10,7 +10,8 @@ import { PartialUserDto } from './dto/partialUserInput.dto';
 
 @Injectable()
 export class UsersService {
-  // users: any;
+  private users: IUserEntity[] = [];
+
   async createUser(users: UserDto): Promise<IUserEntity> {
     const userEntity = { ...users, id: randomUUID() };
 
@@ -21,7 +22,7 @@ export class UsersService {
     @InjectModel(UsersModule.name) private UserModel: Model<Document>,
   ) {}
 
-  create(UserDto: UserDto) {
+  async create(UserDto: UserDto) {
     const user = new this.UserModel(UserDto);
     return user.save();
   }
@@ -53,16 +54,15 @@ export class UsersService {
       _id: id,
     }).exec();
   }
-  
-  async UpdateUserDto(user: PartialUserDto): Promise<IUserEntity> {
-    this.users.map(user => {
+
+  async UpdateUserDto(userData: PartialUserDto): Promise<IUserEntity> {
+    this.users.map((user, index) => {
       if (user.id == userData.id) {
         const UpdatedUser = Object.assign(user, userData);
-        this.user.splice(index, 1, UpdatedUser)
+        this.users.splice(index, 1, UpdatedUser);
       }
     });
     const UpdatedUser = this.users.find((user) => user.id == userData.id);
     return UpdatedUser;
   }
 }
-  
