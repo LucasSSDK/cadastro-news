@@ -6,14 +6,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { IUserEntity } from './entities/user.entity';
 import { UsersModule } from './users.module';
 import { randomUUID } from 'node:crypto';
+import { PartialUserDto } from './dto/partialUserInput.dto';
 
 @Injectable()
 export class UsersService {
- 
+  // users: any;
+  async createUser(users: UserDto): Promise<IUserEntity> {
+    const userEntity = { ...users, id: randomUUID() };
 
-  async createUser(user: UserDto): Promise<IUserEntity> {
-    const userEntity = { ...user, id: randomUUID() };
-   
     return Promise.resolve(userEntity);
   }
 
@@ -52,7 +52,17 @@ export class UsersService {
     return this.UserModel.deleteOne({
       _id: id,
     }).exec();
-
-   
+  }
+  
+  async UpdateUserDto(user: PartialUserDto): Promise<IUserEntity> {
+    this.users.map(user => {
+      if (user.id == userData.id) {
+        const UpdatedUser = Object.assign(user, userData);
+        this.user.splice(index, 1, UpdatedUser)
+      }
+    });
+    const UpdatedUser = this.users.find((user) => user.id == userData.id);
+    return UpdatedUser;
   }
 }
+  
