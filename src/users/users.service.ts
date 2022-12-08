@@ -22,6 +22,21 @@ export class UsersService {
     return this.users;
   }
 
+  async getUserById(userId: string): Promise<IUserEntity> {
+    
+  }
+
+  async UpdateUserDto(userData: PartialUserDto): Promise<IUserEntity> {
+    this.users.map((user, index) => {
+      if (user.id == userData.id) {
+        const UpdatedUser = Object.assign(user, userData);
+        this.users.splice(index, 1, UpdatedUser);
+      }
+    });
+    const UpdatedUser = this.users.find((user) => user.id == userData.id);
+    return UpdatedUser;
+  }
+
  async deleteUserById(userId: string): Promise<boolean> {
   const existeUser = this.users.find((user) => user.id == userId);
   if (!existeUser) {
@@ -36,15 +51,4 @@ export class UsersService {
     return true;
   } 
  
-
-  async UpdateUserDto(userData: PartialUserDto): Promise<IUserEntity> {
-    this.users.map((user, index) => {
-      if (user.id == userData.id) {
-        const UpdatedUser = Object.assign(user, userData);
-        this.users.splice(index, 1, UpdatedUser);
-      }
-    });
-    const UpdatedUser = this.users.find((user) => user.id == userData.id);
-    return UpdatedUser;
-  }
 }
