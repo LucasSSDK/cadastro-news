@@ -9,8 +9,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const config = new DocumentBuilder()
-    .setTitle('News')
-    .setDescription('Cadastro de Noticias')
+    .setTitle('Adoção de animais')
+    .setDescription('Adote um Pet')
     .setVersion('1.0.0')
     .build();
 
