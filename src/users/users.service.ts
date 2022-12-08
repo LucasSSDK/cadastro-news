@@ -23,7 +23,11 @@ export class UsersService {
   }
 
   async getUserById(userId: string): Promise<IUserEntity> {
-    
+    const existeUser = this.users.find((user) => user.id == userId);
+  if (!existeUser) {
+    throw new Error('Usuario não encontrado')
+    }
+    return existeUser;
   }
 
   async UpdateUserDto(userData: PartialUserDto): Promise<IUserEntity> {
