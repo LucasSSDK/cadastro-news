@@ -53,8 +53,12 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.service.findOne(id);
+  async getUserById(@Param('id') UserId: string): Promise<IUserEntity> {
+    try {
+      return await this.service.getUserById(UserId);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   // @Post(':id')
@@ -63,7 +67,16 @@ export class UsersController {
   // }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.service.remove(id);
+  async deleteUserById(@Param('id') UserId: string): Promise<string> {
+    try {
+      const userIsDeleted = await this.service.deleteUserById(UserId);
+      if(userIsDeleted) {
+        return 'Usuario deletado com sucesso';
+      } else {
+        return 'Usuario não encontrado';
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
