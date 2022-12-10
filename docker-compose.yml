@@ -1,17 +1,17 @@
-version:'3'
+version: '3'
 
-service:
+services:
 database:
   image: bitnami/postegresql
   ports:
-    - '5432'
-    container_name: Adoção
-    restart: aleays
-    volumes:
-      - Adoção-disk:/var/lib/postgressql/data
+   - '5432'
+    container_name: Adocao
+    restart: always
+    volumes: 
+    - Adocao-disk:/var/lib/postgressql/data
     environment:
     POSTGRES_USER: admin
     POSTGRES_PASSWORD: admin
     POSTGRES_DB: Adoção
   volume:
-    Adoção-disk
+    Adocao-disk
