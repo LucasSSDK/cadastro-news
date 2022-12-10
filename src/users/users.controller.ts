@@ -61,10 +61,6 @@ export class UsersController {
     }
   }
 
-  // @Post(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.service.update(id, updateUserDto);
-  // }
 
   @Delete(':id')
   async deleteUserById(@Param('id') UserId: string): Promise<string> {
