@@ -4,7 +4,7 @@ services:
 database:
   image: bitnami/postegresql
   ports:
-   - '5432'
+   - '5431:5432'
     container_name: Adocao
     restart: always
     volumes: 
