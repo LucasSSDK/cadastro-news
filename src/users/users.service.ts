@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { UserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { IUserEntity } from './entities/user.entity';
 import { UsersModule } from './users.module';
 import { randomUUID } from 'node:crypto';
@@ -15,6 +14,9 @@ export class UsersService {
 
   async createUser(users: UserDto): Promise<IUserEntity> {
     const userEntity = { ...users, id: randomUUID() };
+    if (userEntity.password.length <= 5){
+      throw new Error('Senha invalida')
+    }
     const createdUser = await this.userRepository.createUser(userEntity)
 
     return createdUser;
@@ -27,10 +29,8 @@ export class UsersService {
 
   async getUserById(userId: string): Promise<IUserEntity> {
     const existeUser = this.users.find((user) => user.id == userId);
-  if (!existeUser) {
-    throw new Error('Usuario não encontrado')
-    }
-    return existeUser;
+  const foundedUser = await this.userRepository.findUserById(userId)
+    return foundedUser;
   }
 
   async UpdateUserDto(userData: PartialUserDto): Promise<IUserEntity> {
@@ -39,17 +39,18 @@ export class UsersService {
   }
 
  async deleteUserById(userId: string): Promise<boolean> {
-  const existeUser = this.users.find((user) => user.id == userId);
+  try{
+    const existeUser = this.userRepository.deleteUser(userId);
   if (!existeUser) {
+    return true;
+  } else {
     return false;
   }
-    
-    this.users.map((user, index) => {
-      if (user.id == userId) {
-        this.users.splice(index, 1);
-      }
-    });
-    return true;
+  
+  }catch (err) {
+    console.log(err);
+    return false;
+  }
   } 
  
 }
