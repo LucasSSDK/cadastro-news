@@ -6,12 +6,15 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { IUserEntity } from './entities/user.entity';
 import { PartialUserDto } from './dto/partialUserInput.dto';
+import { IHttpResponse } from 'src/utils/httpResponse';
+import { response } from 'express';
 
 @Controller('users')
 export class UsersController {
@@ -20,18 +23,21 @@ export class UsersController {
   @Post()
   async creatUser(
     @Body() { cpf, email, idade, name, password, role }: UserDto,
-  ): Promise<IUserEntity> {
+    @Res() response: Promise<IHttpResponse<IUserEntity | null>>,
+  ){
     try {
-      return await this.service.createUser({
+      const result = await this.service.createUser({
         cpf,
         name,
         idade,
         email,
         password,
         role,
-      });
+      })
+      ;(await response).body;
     } catch (err) {
       console.log(err);
+      return { body: null, statusCode: 2001, message: 'Criado com sucesso' };
     }
   }
 

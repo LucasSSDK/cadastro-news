@@ -9,7 +9,7 @@ import { UsersService } from './users/users.service';
       DatabaseModule
     ],
     controllers: [UsersController],
-    providers: [UsersService, UserRepository],
+    providers: [UsersService, UserRepository, ],
   })
 
 export class AppModule {}
