@@ -5,21 +5,24 @@ import { IUserEntity } from './entities/user.entity';
 import { UsersModule } from './users.module';
 import { randomUUID } from 'node:crypto';
 import { PartialUserDto } from './dto/partialUserInput.dto';
+import { UserRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
+  constructor(private readonly userRepository: UserRepository) {}
   private users: IUserEntity[] = [];
   updateUser: any;
 
   async createUser(users: UserDto): Promise<IUserEntity> {
     const userEntity = { ...users, id: randomUUID() };
+    const createdUser = await this.userRepository.createUser(userEntity)
 
-    return Promise.resolve(userEntity);
+    return createdUser;
   }
 
 
   async getAllUsers(): Promise<IUserEntity[]> {
-    return this.users;
+    return await this.userRepository.findAllUser();
   }
 
   async getUserById(userId: string): Promise<IUserEntity> {
@@ -31,14 +34,8 @@ export class UsersService {
   }
 
   async UpdateUserDto(userData: PartialUserDto): Promise<IUserEntity> {
-    this.users.map((user, index) => {
-      if (user.id == userData.id) {
-        const UpdatedUser = Object.assign(user, userData);
-        this.users.splice(index, 1, UpdatedUser);
-      }
-    });
-    const UpdatedUser = this.users.find((user) => user.id == userData.id);
-    return UpdatedUser;
+    const updatedUser = await this.userRepository.updateUser(userData)
+    return updatedUser;
   }
 
  async deleteUserById(userId: string): Promise<boolean> {
