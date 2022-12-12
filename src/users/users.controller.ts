@@ -37,7 +37,7 @@ export class UsersController {
       ;(await response).body;
     } catch (err) {
       console.log(err);
-      return { body: null, statusCode: 2001, message: 'Criado com sucesso' };
+      return { body: null, statusCode: 201, message: 'Criado com sucesso' };
     }
   }
 
