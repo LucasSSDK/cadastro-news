@@ -1,26 +1,52 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { randomUUID } from 'crypto';
+import { EmployeeDto } from './dto/create-employee.dto';
+import { PartialEmployeeDto } from './dto/partialEmployeeInput.dto';
+import { IEmployeeEntity } from './entities/employee.entity';
+ import { EmployeeRepository } from './employyes.repository';
 
 @Injectable()
 export class EmployeesService {
-  create(createEmployeeDto: CreateEmployeeDto) {
-    return 'This action adds a new employee';
+  constructor(private readonly EmployeeRepository: EmployeeRepository) {}
+  private Employees: IEmployeeEntity[] = [];
+  updateEmployee: any;
+
+  async createEmployee(Employees: EmployeeDto): Promise<IEmployeeEntity> {
+    const EmployeeEntity = { ...Employees, id: randomUUID() };
+    if (EmployeeEntity.password.length <= 5) {
+      throw new Error('Senha invalida');
+    }
+    const createdEmployee = await this.EmployeeRepository.createEmployee(EmployeeEntity);
+
+    return createdEmployee;
   }
 
-  findAll() {
-    return `This action returns all employees`;
+  async getAllEmployees(): Promise<IEmployeeEntity[]> {
+    return await this.EmployeeRepository.findAllEmployee();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} employee`;
+  async getEmployeeById(EmployeeId: string): Promise<IEmployeeEntity> {
+    const existeEmployee = this.Employees.find((Employee) => Employee.id == EmployeeId);
+    const foundedEmployee = await this.EmployeeRepository.findEmployeeById(EmployeeId);
+    return foundedEmployee;
   }
 
-  update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
-    return `This action updates a #${id} employee`;
+  async UpdateEmployeeDto(EmployeeData: PartialEmployeeDto): Promise<IEmployeeEntity> {
+    const updatedEmployee = await this.EmployeeRepository.updateEmployee(EmployeeData);
+    return updatedEmployee;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} employee`;
+  async deleteEmployeeById(EmployeeId: string): Promise<boolean> {
+    try {
+      const existeEmployee = this.EmployeeRepository.deleteEmployee(EmployeeId);
+      if (!existeEmployee) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
   }
 }

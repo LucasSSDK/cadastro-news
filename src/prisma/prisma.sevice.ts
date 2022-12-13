@@ -10,6 +10,7 @@ export class PrismaService
   implements OnModuleInit, OnModuleDestroy
 {
   pet: any;
+    Employee: any;
   async onModuleDestroy() {
     await this.$disconnect();
   }

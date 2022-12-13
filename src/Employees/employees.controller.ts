@@ -6,40 +6,73 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service';
-import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { EmployeeDto } from './dto/create-employee.dto';
+import { IHttpResponse } from 'src/utils/httpResponse';
+import { IEmployeeEntity } from './entities/employee.entity';
+import { PartialEmployeeDto } from './dto/partialEmployeeInput.dto';
 
-@Controller('employees')
+@Controller('Employees')
 export class EmployeesController {
-  constructor(private readonly employeesService: EmployeesService) {}
+  constructor(private readonly service: EmployeesService) {}
 
   @Post()
-  create(@Body() createEmployeeDto: CreateEmployeeDto) {
-    return this.employeesService.create(createEmployeeDto);
+  async creatEmployee(
+    @Body() { cpf, email, idade, name, password, role }: EmployeeDto,
+    @Res() response: Promise<IHttpResponse<IEmployeeEntity | null>>,
+  ) {
+    try {
+      const result = await this.service.createEmployee({
+        cpf,
+        name,
+        idade,
+        email,
+        password,
+        role,
+      });
+      (await response).body;
+    } catch (err) {
+      console.log(err);
+      return { body: null, statusCode: 201, message: 'Criado com sucesso' };
+    }
+  }
+
+  @Patch()
+  async updateEmployee(@Body() EmployeeData: PartialEmployeeDto): Promise<IEmployeeEntity> {
+    try {
+      return await this.service.updateEmployee(EmployeeData);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   @Get()
-  findAll() {
-    return this.employeesService.findAll();
+  async getAllEmployees(): Promise<IEmployeeEntity[]> {
+    return await this.service.getAllEmployees();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.employeesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateEmployeeDto: UpdateEmployeeDto,
-  ) {
-    return this.employeesService.update(+id, updateEmployeeDto);
+  async getEmployeeById(@Param('id') EmployeeId: string): Promise<IEmployeeEntity> {
+    try {
+      return await this.service.getEmployeeById(EmployeeId);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.employeesService.remove(+id);
+  async deleteEmployeeById(@Param('id') EmployeeId: string): Promise<string> {
+    try {
+      const EmployeeIsDeleted = await this.service.deleteEmployeeById(EmployeeId);
+      if (EmployeeIsDeleted) {
+        return 'Usuario deletado com sucesso';
+      } else {
+        return 'Usuario não encontrado';
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 }
