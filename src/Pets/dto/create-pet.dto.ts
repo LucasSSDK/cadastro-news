@@ -8,7 +8,8 @@ export class PetDto {
 
   @ApiProperty()
   idade: number;
-
+  
+  @ApiProperty()
   image: string;
 
   @ApiProperty()
