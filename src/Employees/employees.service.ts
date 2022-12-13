@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto';
 import { EmployeeDto } from './dto/create-employee.dto';
 import { PartialEmployeeDto } from './dto/partialEmployeeInput.dto';
 import { IEmployeeEntity } from './entities/employee.entity';
- import { EmployeeRepository } from './employyes.repository';
+import { EmployeeRepository } from './employees.repository';
 
 @Injectable()
 export class EmployeesService {
@@ -16,7 +16,9 @@ export class EmployeesService {
     if (EmployeeEntity.password.length <= 5) {
       throw new Error('Senha invalida');
     }
-    const createdEmployee = await this.EmployeeRepository.createEmployee(EmployeeEntity);
+    const createdEmployee = await this.EmployeeRepository.createEmployee(
+      EmployeeEntity,
+    );
 
     return createdEmployee;
   }
@@ -26,13 +28,21 @@ export class EmployeesService {
   }
 
   async getEmployeeById(EmployeeId: string): Promise<IEmployeeEntity> {
-    const existeEmployee = this.Employees.find((Employee) => Employee.id == EmployeeId);
-    const foundedEmployee = await this.EmployeeRepository.findEmployeeById(EmployeeId);
+    const existeEmployee = this.Employees.find(
+      (Employee) => Employee.id == EmployeeId,
+    );
+    const foundedEmployee = await this.EmployeeRepository.findEmployeeById(
+      EmployeeId,
+    );
     return foundedEmployee;
   }
 
-  async UpdateEmployeeDto(EmployeeData: PartialEmployeeDto): Promise<IEmployeeEntity> {
-    const updatedEmployee = await this.EmployeeRepository.updateEmployee(EmployeeData);
+  async UpdateEmployeeDto(
+    EmployeeData: PartialEmployeeDto,
+  ): Promise<IEmployeeEntity> {
+    const updatedEmployee = await this.EmployeeRepository.updateEmployee(
+      EmployeeData,
+    );
     return updatedEmployee;
   }
 

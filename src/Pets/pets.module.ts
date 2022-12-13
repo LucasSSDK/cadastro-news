@@ -8,6 +8,5 @@ import { PrismaService } from 'src/prisma/prisma.sevice';
   controllers: [PetsController],
   providers: [PetsService, PetRepository, PrismaService],
   exports: [PetsService],
-
 })
 export class PetsModule {}

@@ -1,6 +1,5 @@
 import { PetDto } from '../dto/create-pet.dto';
 
-
 export interface IPetEntity extends PetDto {
   id: string;
   name: string;
@@ -8,4 +7,3 @@ export interface IPetEntity extends PetDto {
   image: string;
   password: string;
 }
-

@@ -35,12 +35,18 @@ export class EmployeesController {
       (await response).body;
     } catch (err) {
       console.log(err);
-      return { body: null, statusCode: 201, message: 'Funcionario cadastrado com sucesso' };
+      return {
+        body: null,
+        statusCode: 201,
+        message: 'Funcionario cadastrado com sucesso',
+      };
     }
   }
 
   @Patch()
-  async updateEmployee(@Body() EmployeeData: PartialEmployeeDto): Promise<IEmployeeEntity> {
+  async updateEmployee(
+    @Body() EmployeeData: PartialEmployeeDto,
+  ): Promise<IEmployeeEntity> {
     try {
       return await this.service.updateEmployee(EmployeeData);
     } catch (err) {
@@ -54,7 +60,9 @@ export class EmployeesController {
   }
 
   @Get(':id')
-  async getEmployeeById(@Param('id') EmployeeId: string): Promise<IEmployeeEntity> {
+  async getEmployeeById(
+    @Param('id') EmployeeId: string,
+  ): Promise<IEmployeeEntity> {
     try {
       return await this.service.getEmployeeById(EmployeeId);
     } catch (err) {
@@ -65,7 +73,9 @@ export class EmployeesController {
   @Delete(':id')
   async deleteEmployeeById(@Param('id') EmployeeId: string): Promise<string> {
     try {
-      const EmployeeIsDeleted = await this.service.deleteEmployeeById(EmployeeId);
+      const EmployeeIsDeleted = await this.service.deleteEmployeeById(
+        EmployeeId,
+      );
       if (EmployeeIsDeleted) {
         return 'Funcionario deletado com sucesso';
       } else {

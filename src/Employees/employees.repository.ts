@@ -3,17 +3,18 @@ import { PrismaService } from "src/prisma/prisma.sevice";
 import { PartialEmployeeDto } from "./dto/partialEmployeeInput.dto";
 import { IEmployeeEntity } from "./entities/employee.entity";
 
+
 @Injectable()
 export class EmployeeRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async createEmployee(Employee: IEmployeeEntity): Promise<IEmployeeEntity> {
-    const CreatedEmployee = await this.prisma.Employee.create({ data: Employee });
+    const CreatedEmployee = await this.prisma.employee.create({ data: Employee });
     return CreatedEmployee;
   }
 
   async updateEmployee(Employee: PartialEmployeeDto): Promise<IEmployeeEntity> {
-    const UpdatedEmployee = await this.prisma.Employee.update({
+    const UpdatedEmployee = await this.prisma.employee.update({
       where: { id: Employee.id },
       data: Employee,
     });
@@ -21,19 +22,19 @@ export class EmployeeRepository {
   }
 
   async deleteEmployee(id: string): Promise<IEmployeeEntity> {
-    const deletedEmployee = await this.prisma.Employee.delete({
+    const deletedEmployee = await this.prisma.employee.delete({
       where: { id: id },
     });
     return deletedEmployee;
   }
 
   async findAllEmployee(): Promise<IEmployeeEntity[]> {
-    const allEmployees = await this.prisma.Employee.findMany();
+    const allEmployees = await this.prisma.employee.findMany();
     return allEmployees;
   }
 
   async findEmployeeById(id: string): Promise<IEmployeeEntity> {
-    const foundedEmployee = await this.prisma.Employee.findUniqueOrThrow({
+    const foundedEmployee = await this.prisma.employee.findUniqueOrThrow({
       where: { id: id },
     });
     return foundedEmployee;

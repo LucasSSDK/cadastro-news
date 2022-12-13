@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "src/prisma/prisma.sevice";
-import { PartialPetDto } from "./dto/partialPetInput.dto";
-import { IPetEntity } from "./entities/pet.entity";
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.sevice';
+import { PartialPetDto } from './dto/partialPetInput.dto';
+import { IPetEntity } from './entities/pet.entity';
 
 @Injectable()
 export class PetRepository {

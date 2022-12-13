@@ -19,17 +19,27 @@ export class PetsController {
   constructor(private readonly petsService: PetsService) {}
 
   @Post()
-  async createPet(@Body() {name, image, idade, password}:  PetDto,  @Res() response: Promise<IHttpResponse<IPetEntity | null>>,
-  ) { try { 
-    const result = await this.petsService.createPet({
-      name, image, idade, password
-    }); 
-    (await response).body;
-  } catch (err) {
-    console.log(err);
-    return { body: null, statusCode: 201, message: 'Pet adicionado com sucesso' };
+  async createPet(
+    @Body() { name, image, idade, password }: PetDto,
+    @Res() response: Promise<IHttpResponse<IPetEntity | null>>,
+  ) {
+    try {
+      const result = await this.petsService.createPet({
+        name,
+        image,
+        idade,
+        password,
+      });
+      (await response).body;
+    } catch (err) {
+      console.log(err);
+      return {
+        body: null,
+        statusCode: 201,
+        message: 'Pet adicionado com sucesso',
+      };
+    }
   }
-}
 
   @Get()
   async getAllPets(): Promise<IPetEntity[]> {
@@ -37,7 +47,7 @@ export class PetsController {
   }
 
   @Get(':id')
-  async  getPetById(@Param('id') PetId: string): Promise<IPetEntity> {
+  async getPetById(@Param('id') PetId: string): Promise<IPetEntity> {
     try {
       return await this.petsService.getPetById(PetId);
     } catch (err) {
