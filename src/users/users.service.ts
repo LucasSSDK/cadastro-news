@@ -14,14 +14,13 @@ export class UsersService {
 
   async createUser(users: UserDto): Promise<IUserEntity> {
     const userEntity = { ...users, id: randomUUID() };
-    if (userEntity.password.length <= 5){
-      throw new Error('Senha invalida')
+    if (userEntity.password.length <= 5) {
+      throw new Error('Senha invalida');
     }
-    const createdUser = await this.userRepository.createUser(userEntity)
+    const createdUser = await this.userRepository.createUser(userEntity);
 
     return createdUser;
   }
-
 
   async getAllUsers(): Promise<IUserEntity[]> {
     return await this.userRepository.findAllUser();
@@ -29,28 +28,26 @@ export class UsersService {
 
   async getUserById(userId: string): Promise<IUserEntity> {
     const existeUser = this.users.find((user) => user.id == userId);
-  const foundedUser = await this.userRepository.findUserById(userId)
+    const foundedUser = await this.userRepository.findUserById(userId);
     return foundedUser;
   }
 
   async UpdateUserDto(userData: PartialUserDto): Promise<IUserEntity> {
-    const updatedUser = await this.userRepository.updateUser(userData)
+    const updatedUser = await this.userRepository.updateUser(userData);
     return updatedUser;
   }
 
- async deleteUserById(userId: string): Promise<boolean> {
-  try{
-    const existeUser = this.userRepository.deleteUser(userId);
-  if (!existeUser) {
-    return true;
-  } else {
-    return false;
+  async deleteUserById(userId: string): Promise<boolean> {
+    try {
+      const existeUser = this.userRepository.deleteUser(userId);
+      if (!existeUser) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
   }
-  
-  }catch (err) {
-    console.log(err);
-    return false;
-  }
-  } 
- 
 }

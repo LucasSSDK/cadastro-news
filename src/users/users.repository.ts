@@ -27,14 +27,15 @@ export class UserRepository {
     });
     return deletedUser;
   }
-  
+
   async findAllUser(): Promise<IUserEntity[]> {
     const allUsers = await this.prisma.user.findMany();
     return allUsers;
   }
 
   async findUserById(id: string): Promise<IUserEntity> {
-    const foundedUser = await this.prisma.user.findUniqueOrThrow({where: {id: id},
+    const foundedUser = await this.prisma.user.findUniqueOrThrow({
+      where: { id: id },
     });
     return foundedUser;
   }

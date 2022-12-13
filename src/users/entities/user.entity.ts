@@ -8,4 +8,3 @@ export interface IUserEntity extends UserDto {
   password: string;
   role: string;
 }
-

@@ -24,7 +24,7 @@ export class UsersController {
   async creatUser(
     @Body() { cpf, email, idade, name, password, role }: UserDto,
     @Res() response: Promise<IHttpResponse<IUserEntity | null>>,
-  ){
+  ) {
     try {
       const result = await this.service.createUser({
         cpf,
@@ -33,8 +33,8 @@ export class UsersController {
         email,
         password,
         role,
-      })
-      ;(await response).body;
+      });
+      (await response).body;
     } catch (err) {
       console.log(err);
       return { body: null, statusCode: 201, message: 'Criado com sucesso' };
@@ -42,12 +42,9 @@ export class UsersController {
   }
 
   @Patch()
-  async updateUser(
-    @Body() userData: PartialUserDto,
-  ): Promise<IUserEntity> {
+  async updateUser(@Body() userData: PartialUserDto): Promise<IUserEntity> {
     try {
       return await this.service.updateUser(userData);
-      
     } catch (err) {
       console.log(err);
     }
@@ -67,12 +64,11 @@ export class UsersController {
     }
   }
 
-
   @Delete(':id')
   async deleteUserById(@Param('id') UserId: string): Promise<string> {
     try {
       const userIsDeleted = await this.service.deleteUserById(UserId);
-      if(userIsDeleted) {
+      if (userIsDeleted) {
         return 'Usuario deletado com sucesso';
       } else {
         return 'Usuario não encontrado';
