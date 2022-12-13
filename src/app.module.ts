@@ -5,7 +5,7 @@ import { PetsModule } from './pets/pets.module';
 import { EmployeesModule } from './employees/employees.module';
 
 @Module({
-    imports: [UsersModule, PetsModule, EmployeesModule],
+    imports: [UsersModule, PetsModule, EmployeesModule, PrismaService],
     controllers: [],
     providers: [PrismaService]
   })

@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PetDto } from './dto/create-pet.dto';
 import { IPetEntity } from './entities/pet.entity';
-import { UpdatePetDto } from './dto/update-pet.dto';
 import { randomUUID } from 'node:crypto';
 import { PartialPetDto } from './dto/partialPetInput.dto';
 import { PetRepository } from './pets.repository';

@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { PetDto } from './dto/create-pet.dto';
-import { UpdatePetDto } from './dto/update-pet.dto';
 import { IHttpResponse } from 'src/utils/httpResponse';
 import { IPetEntity } from './entities/pet.entity';
 import { PartialPetDto } from './dto/partialPetInput.dto';
