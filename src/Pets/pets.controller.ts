@@ -6,37 +6,66 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
-import { CreatePetDto } from './dto/create-pet.dto';
+import { PetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
+import { IHttpResponse } from 'src/utils/httpResponse';
+import { IPetEntity } from './entities/pet.entity';
+import { PartialPetDto } from './dto/partialPetInput.dto';
 
 @Controller('pets')
 export class PetsController {
   constructor(private readonly petsService: PetsService) {}
 
   @Post()
-  create(@Body() createPetDto: CreatePetDto) {
-    return this.petsService.create(createPetDto);
+  async createPet(@Body() {name, image, idade, password}:  PetDto,  @Res() response: Promise<IHttpResponse<IPetEntity | null>>,
+  ) { try { 
+    const result = await this.petsService.createPet({
+      name, image, idade, password
+    }); 
+    (await response).body;
+  } catch (err) {
+    console.log(err);
+    return { body: null, statusCode: 201, message: 'Pet adicionado com sucesso' };
   }
+}
 
   @Get()
-  findAll() {
-    return this.petsService.findAll();
+  async getAllPets(): Promise<IPetEntity[]> {
+    return await this.petsService.getAllPets();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.petsService.findOne(+id);
+  async  getPetById(@Param('id') PetId: string): Promise<IPetEntity> {
+    try {
+      return await this.petsService.getPetById(PetId);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePetDto: UpdatePetDto) {
-    return this.petsService.update(+id, updatePetDto);
+  async updatePet(@Body() PetData: PartialPetDto): Promise<IPetEntity> {
+    try {
+      return await this.petsService.updatePet(PetData);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.petsService.remove(+id);
+  async deletePetById(@Param('id') PetId: string): Promise<string> {
+    try {
+      const PetIsDeleted = await this.petsService.deletePetById(PetId);
+      if (PetIsDeleted) {
+        return 'Pet deletado com sucesso';
+      } else {
+        return 'Pet não encontrado';
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

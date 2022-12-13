@@ -1,8 +1,11 @@
-import { CreatePetDto } from '../dto/create-pet.dto';
+import { PetDto } from '../dto/create-pet.dto';
 
-export class Pet extends CreatePetDto {
+
+export interface IPetEntity extends PetDto {
   id: string;
   name: string;
   idade: number;
+  image: string;
+  password: string;
 }
 
