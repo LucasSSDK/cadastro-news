@@ -35,7 +35,7 @@ export class EmployeesController {
       (await response).body;
     } catch (err) {
       console.log(err);
-      return { body: null, statusCode: 201, message: 'Criado com sucesso' };
+      return { body: null, statusCode: 201, message: 'Funcionario cadastrado com sucesso' };
     }
   }
 
@@ -67,9 +67,9 @@ export class EmployeesController {
     try {
       const EmployeeIsDeleted = await this.service.deleteEmployeeById(EmployeeId);
       if (EmployeeIsDeleted) {
-        return 'Usuario deletado com sucesso';
+        return 'Funcionario deletado com sucesso';
       } else {
-        return 'Usuario não encontrado';
+        return 'Funcionario não encontrado';
       }
     } catch (err) {
       console.log(err);
