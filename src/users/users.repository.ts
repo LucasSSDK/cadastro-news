@@ -1,5 +1,5 @@
 import { PrismaService } from 'src/prisma/prisma.sevice';
-import { UserDto } from './dto/create-user.dto';
+
 import { IUserEntity } from './entities/user.entity';
 import { PartialUserDto } from './dto/partialUserInput.dto';
 import { Injectable } from '@nestjs/common';
