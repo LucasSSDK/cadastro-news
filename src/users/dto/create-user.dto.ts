@@ -8,8 +8,7 @@ export class UserDto {
   @ApiProperty()
   idade: number;
 
-  @ApiProperty()
-  @IsEmail()
+ 
   email: string;
 
   @ApiProperty()
